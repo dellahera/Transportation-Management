@@ -101,14 +101,15 @@ Rute Orderan(Order X){
 				}  
 			}
    	 	} 
-   	 //	printSolution(dist); 
+   	 	//printSolution(dist); 
 	}
 	
 	return dist[akhir];
 }
 
 int main(){
-	//Pendataan seluruh provider dan rute
+
+ 		//Pendataan seluruh provider dan rute
 	for(long long i=0; i<7; i++){
 		cout<<"Masukkan data provider :";
 		cin>>Provider[i].nama>>Provider[i].max_capacity>>Provider[i].max_req>>Provider[i].cost;			
@@ -167,7 +168,7 @@ int main(){
 
 	cout<<"\nOrderan beda kota 1 Provider "<<setw(5)<<kotabeda<<"\nOrderan Kota yang sama "<<setw(5)<<kotasama<<"\nOrderan Beda Provider "<<setw(5)<<Req.size()-kotasama<<endl;	
 	//Proses orderan
-	int jum=1;
+	int jum=1,  countt= 0;
 	// Rute beda kota dengan 1 provider
 	sort(RuteProvider.begin(), RuteProvider.end(), compareMax);
 	for(int i=0; i<RuteProvider.size(); i++){
@@ -182,14 +183,15 @@ int main(){
 					data[temp][k].max_capacity -= RuteProvider[i].qty;
 					data[temp][k].max_req--;
 				}
-				RuteProvider[i].biaya += (RuteProvider[i].berat * RuteProvider[i].qty * data[temp][j].cost);	
+				RuteProvider[i].biaya += (RuteProvider[i].berat * data[temp][j].cost);	
 				cout<<P[temp]<<" ";
 			}
             else cout<<S[temp-7]<<" "; 	
 		}  
-		long long bil= dataReq.cost * RuteProvider[i].berat * RuteProvider[i].qty;
+		long long bil= dataReq.cost * RuteProvider[i].berat;
 		total+= bil;
-		cout<<RuteProvider[i].tujuan<< " Total biaya = "<<dataReq.cost<<" x "<<RuteProvider[i].berat * RuteProvider[i].qty <<" = "<<bil<<endl<<endl; 
+			if(dataReq.cost== INT_MAX) countt++;
+		cout<<RuteProvider[i].tujuan<< " Total biaya = "<<dataReq.cost<<" x "<<RuteProvider[i].berat <<" = "<<bil<<endl<<endl; 
 		jum++;
     } 
     
@@ -207,14 +209,15 @@ int main(){
 					if(data[temp][k].max_capacity!= 0) data[temp][k].max_capacity -= Req[i].qty;
 					if(data[temp][k].max_req!= 0) data[temp][k].max_req--;
 				}
-				Req[i].biaya += (Req[i].berat * Req[i].qty * data[temp][j].cost);	
+				Req[i].biaya += (Req[i].berat  * data[temp][j].cost);	
 				cout<<P[temp]<<" ";
 			}
             else cout<<S[temp-7]<<" "; 	
 		}  
-		long long bil= dataReq.cost * Req[i].berat * Req[i].qty;
+		long long bil= dataReq.cost * Req[i].berat;
 		total+= bil;
-		cout<<Req[i].tujuan<< " Total biaya = "<<dataReq.cost<<" x "<<Req[i].berat * Req[i].qty <<" = "<<bil<<endl<<endl; 
+		if(dataReq.cost== INT_MAX) countt++;
+		cout<<Req[i].tujuan<< " Total biaya = "<<dataReq.cost<<" x "<<Req[i].berat <<" = "<<bil<<endl<<endl; 
 		jum++;
     } 
     int jlh=0;
@@ -226,7 +229,7 @@ int main(){
 		}
 		jlh+=temp;
 	}
-	//cout<<endl<<jlh;
+//	cout<<endl<<jlh<<" "<<countt;
 	cout<<endl<<"Total pengeluaran = "<<total<<endl;
+ }
 
-}
